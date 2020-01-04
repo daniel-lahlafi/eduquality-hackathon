@@ -6,7 +6,7 @@ from .models import UserFeed, FeedItem
 class FeedView(generic.ListView):
     """ Users feed """
     template_name = 'feed/feed.html'
-    context_object_name = 'feed_list'
+    context_object_name = 'context'
 
     def render_to_response(self, context):
         if self.request.user.is_authenticated:
@@ -15,11 +15,10 @@ class FeedView(generic.ListView):
             return redirect('login')
 
     def get_queryset(self):
-        request = self.request
-        print(request.user)
-        if request.user.is_authenticated:
-            """Return the last five published questions."""
-                        
-            return FeedItem.objects.filter(
-                feeds__user=request.user
-            )
+        if self.request.user.is_authenticated:
+            context = {
+                "username": self.request.user.username,
+                "feed_items": FeedItem.objects.filter(feeds__user=self.request.user)
+            }
+            
+            return context

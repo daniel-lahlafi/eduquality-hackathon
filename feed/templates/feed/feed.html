@@ -1,9 +1,21 @@
-<h1>User Feed</h1>
+<h1>{{context.username}}'s Feed</h1>
+
+{% if context.message %}
+    <div class="message">
+        {{context.message}}
+    </div>
+{% endif %}
+
 <ul class="feed">
-    {% for feed_item in feed_list %}
+    {% for feed_item in context.feed_items %}
         <li class="feed-item">
             {{feed_item.description}}
         </li>
     {% endfor %}
 </ul>
 
+{% comment %} <form action="{% url 'feed:create' %}" method="post">
+    {% csrf_token %}
+    <input type="text" name="description" id="description" value="description">
+    <input type="submit" value="post">
+</form> {% endcomment %}

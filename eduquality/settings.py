@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'feed.apps.FeedConfig'
+    'feed.apps.FeedConfig',
+    'friends.apps.FriendsConfig'
 ]
 
 MIDDLEWARE = [
