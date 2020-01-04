@@ -1,0 +1,9 @@
+<h1>User Feed</h1>
+<ul class="feed">
+    {% for feed_item in feed_list %}
+        <li class="feed-item">
+            {{feed_item.description}}
+        </li>
+    {% endfor %}
+</ul>
+
