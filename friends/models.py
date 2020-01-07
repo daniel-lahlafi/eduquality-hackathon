@@ -6,5 +6,4 @@ class Friendship(models.Model):
     friend = models.ForeignKey(get_user_model(), related_name="friend_set", on_delete=models.CASCADE)
 
     def __str__(self):
-        return (self.creator.username + " -> " +self.friend.username)
-    
+        return (self.creator.username + " -> " + self.friend.username)

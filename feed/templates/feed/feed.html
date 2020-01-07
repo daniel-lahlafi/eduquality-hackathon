@@ -14,8 +14,8 @@
     {% endfor %}
 </ul>
 
-{% comment %} <form action="{% url 'feed:create' %}" method="post">
+<form method="post">
     {% csrf_token %}
-    <input type="text" name="description" id="description" value="description">
-    <input type="submit" value="post">
-</form> {% endcomment %}
+    {{ context.feed_item_form.as_p }}
+    <button type="submit">Submit</button>
+</form>

@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'feed.apps.FeedConfig',
-    'friends.apps.FriendsConfig'
+    'friends.apps.FriendsConfig',
+    'user.apps.UserConfig'
 ]
 
 MIDDLEWARE = [
@@ -124,3 +125,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+MEDIA_URL = '/media/'
+MEDIA_ROUTE = os.path.join(BASE_DIR, "/media")
