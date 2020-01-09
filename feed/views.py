@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponseRedirect, redirect
+from django.shortcuts import render, HttpResponseRedirect, redirect, get_object_or_404
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth import get_user_model
@@ -6,6 +6,7 @@ from django.contrib.auth import get_user_model
 
 from .models import UserFeed, FeedItem
 from friends.models import Friendship
+from user.models import UserProfile
 
 from . import forms
 
@@ -22,10 +23,20 @@ class FeedView(generic.ListView):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
+            friends_username = [x.friend.username for x in Friendship.objects.filter(creator=self.request.user)]
+            friends = Friendship.objects.filter(creator=self.request.user)
+            friends_details = []
+            for friend in friends:
+                friends_details.append({
+                    "username": friend.friend,
+                    "image": get_object_or_404(UserProfile, user=friend.friend).image
+                })
+
             context = {
                 "username": self.request.user.username,
                 "feed_items": FeedItem.objects.filter(feeds__user=self.request.user),
-                "feed_item_form": forms.FeedItemForm()
+                "feed_item_form": forms.FeedItemForm(),
+                "friends": friends_details
             }
             
             return context
