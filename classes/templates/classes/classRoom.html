@@ -1,0 +1,15 @@
+<h1>{{name}} by {{teacher.username}}</h1>
+
+{% if joined %}
+    <a>Leave Class</a>
+{% else %}
+    <a>Join Class</a>
+{% endif %}
+
+<ul class="feed">
+    {% for feed_item in context.feed_items %}
+        <li class="feed-item">
+            {{feed_item.description}}
+        </li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,14 @@
+<h1>{{username}}'s Profile</h1>
+
+<img src="{{profile.image.url}}">
+{% if friend %}
+    <a href="/friends/remove/{{username}}">Un-follow</a>
+{% else %}
+    <a href="/friends/create/{{username}}">Follow</a>
+{% endif %} 
+
+<ul>
+    <li>City: {{ profile.city}}</li>
+    <li>Phone: {{profile.phone}}</li>
+</ul>
+

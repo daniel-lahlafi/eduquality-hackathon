@@ -16,10 +16,10 @@
 
 <ul>
     {% for friend in context.friends %}
-        <div>
+        <a href="/user/profile/{{friend.username}}">
             <img src={{friend.image.url}}>
             {{friend.username}}
-        </div>
+        </a>
     {% endfor %}
 </ul>
 

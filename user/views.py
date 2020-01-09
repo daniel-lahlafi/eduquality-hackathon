@@ -1,9 +1,10 @@
 from .models import UserProfile
 from django.views import generic
-from django.contrib.auth import login, authenticate
-from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate, get_user_model
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from .forms import SignUpForm
-
+from friends.models import Friendship
+from feed.models import UserFeed
 
 class UserProfileView(generic.ListView):
     template_name = 'user/userProfile.html'
@@ -22,6 +23,22 @@ class UserProfileView(generic.ListView):
             }
             return context
 
+def otherUserView(request, username):
+    if request.user.is_authenticated:
+        if request.user.username == username:
+            redirect(reverse('user:profile'))
+        else:
+            user = get_object_or_404(get_user_model(), username=username)
+            context = {
+                "username": user.username,
+                "profile": UserProfile.objects.get(user=user),
+                "friend": Friendship.objects.filter(creator=request.user, friend=user)
+            }
+            return render(request, 'user/otherUserProfile.html', {
+                "username": user.username,
+                "profile": UserProfile.objects.get(user=user),
+                "friend": Friendship.objects.filter(creator=request.user, friend=user)
+            })
 
 
 def signup(request):
@@ -30,11 +47,16 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             user.refresh_from_db()  # load the profile instance created by the signal
+
             profile = UserProfile(user=user)
             profile.city = form.cleaned_data.get('city')
             profile.phone = form.cleaned_data.get('phone')
             profile.image = form.cleaned_data.get('image')
             profile.save()
+
+            feed = UserFeed(user=user)
+            feed.save()
+
             user.save()
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)

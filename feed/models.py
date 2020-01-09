@@ -10,7 +10,6 @@ class UserFeed(models.Model):
 
     def __str__(self):
         return self.user.username
-    
 
 class FeedItem(models.Model):
     author = models.ForeignKey(get_user_model(),

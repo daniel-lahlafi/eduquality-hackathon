@@ -36,7 +36,7 @@ class FeedView(generic.ListView):
                 "username": self.request.user.username,
                 "feed_items": FeedItem.objects.filter(feeds__user=self.request.user),
                 "feed_item_form": forms.FeedItemForm(),
-                "friends": friends_details
+                "friends": friends_details,
             }
             
             return context

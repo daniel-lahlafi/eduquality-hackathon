@@ -1,0 +1,60 @@
+{% extends 'search/base.html' %}
+{% block body%}
+    <h1>Search</h1>
+
+    <h2>Users</h2>
+    {% if user_profiles %}
+        {% for user in user_profiles %}
+            <a href="/user/profile/{{user.username}}">
+                <div class="user">
+                    <h3>{{user.username}}</h3>
+                    <img src={{user.image.url}}>
+                </div>
+            </a>
+        {% endfor %}
+    {% else %}
+        <p>No Users found</p>
+    {% endif %}
+
+    <h2>Resources</h2>
+    <container id="resource_list">
+    </container>
+{% endblock %}
+
+{% block extra_js %}
+
+<script type="text/javascript">
+var request = new XMLHttpRequest()
+var query = '{{query}}'
+
+request.open('GET', 'https://platform.x5gon.org/api/v1/search?text='.concat(query), true)
+request.onload = function() {
+    // Begin accessing JSON data here
+    var data = JSON.parse(this.response).rec_materials
+    console.log(data)
+
+    if (request.status >= 200 && request.status < 400) {
+        var resource_list = document.getElementById("resource_list")
+        data.forEach(resource => {
+            var header = document.createElement("H3")
+            header.appendChild(document.createTextNode(resource.title))
+
+            var description = document.createElement("p")
+            description.appendChild(document.createTextNode(resource.description))
+
+            var container = document.createElement('a')
+            container.href = resource.url
+            container.setAttribute('class', 'resource')
+            container.appendChild(header)
+            container.appendChild(description)
+
+            resource_list.appendChild(container)
+        })
+    } else {
+        console.log('error')
+    }
+}
+
+request.send()
+</script>
+{% endblock extra_js %}

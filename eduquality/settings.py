@@ -42,7 +42,8 @@ INSTALLED_APPS = [
 
     'feed.apps.FeedConfig',
     'friends.apps.FriendsConfig',
-    'user.apps.UserConfig'
+    'user.apps.UserConfig',
+    'search.apps.SearchConfig'
 ]
 
 MIDDLEWARE = [
