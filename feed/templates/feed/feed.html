@@ -1,3 +1,25 @@
+<head>
+    <style>
+        .container {
+            display: flex;
+        }
+        img {
+            width: 50px;
+        }
+    </style>
+
+    <script>
+        function search() {
+            query = document.getElementById("search").value
+            query = "/search/".concat(query)
+
+            // Simulate a mouse click:
+            window.location.href = query;
+        }
+    </script>
+</head>
+
+<body>
 <h1>{{context.username}}'s Feed</h1>
 
 {% if context.message %}
@@ -6,25 +28,35 @@
     </div>
 {% endif %}
 
-<ul class="feed">
-    {% for feed_item in context.feed_items %}
-        <li class="feed-item">
-            {{feed_item.description}}
-        </li>
-    {% endfor %}
-</ul>
+<input id="search" placeholder="Search"/>
+<button type="button" onClick="search()">Search</button>
 
-<ul>
-    {% for friend in context.friends %}
-        <a href="/user/profile/{{friend.username}}">
-            <img src={{friend.image.url}}>
-            {{friend.username}}
-        </a>
-    {% endfor %}
-</ul>
+<div class="container">
+    <ul class="feed">
+        {% for feed_item in context.feed_items %}
+            <li class="feed-item">
+                {{feed_item.description}}
+            </li>
+        {% endfor %}
 
-<form method="post">
-    {% csrf_token %}
-    {{ context.feed_item_form.as_p }}
-    <button type="submit">Submit</button>
-</form>
+        <form method="post">
+            {% csrf_token %}
+            {{ context.feed_item_form.as_p }}
+            <button type="submit">Submit</button>
+        </form>
+    </ul>
+
+    <ul>
+        <h2>Friends</h2>
+
+        {% for friend in context.friends %}
+            <a href="/user/profile/{{friend.username}}">
+                <img src={{friend.image.url}}>
+                {{friend.username}}
+            </a>
+        {% endfor %}
+    </ul>
+
+    
+</div>
+</body>

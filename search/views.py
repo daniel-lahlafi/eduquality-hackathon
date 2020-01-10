@@ -8,12 +8,8 @@ from user.models import UserProfile
 def searchView(request, query):
     if request.user.is_authenticated:
         users = get_user_model().objects.filter(username=query)
-        
-
         user_profiles = []
         for user in users:
-            
-
             user_profiles.append({
                 "username": user.username,
                 "image": get_object_or_404(UserProfile, user=user).image,

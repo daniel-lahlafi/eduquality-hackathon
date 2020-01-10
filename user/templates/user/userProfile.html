@@ -2,8 +2,21 @@
 
 <img src="{{context.profile.image.url}}">
 
+<input id="class_name" placeholder="Class name">
+<button type="button" id="class_link" onclick="getClassName()">Create Class</button>
+
 <ul>
     <li>City: {{ context.profile.city}}</li>
     <li>Phone: {{context.profile.phone}}</li>
 </ul>
 
+<script>
+    function getClassName() {
+        var input = document.getElementById("class_name")
+        var link_text = "/classes/create/".concat(input.value)
+        var link = document.getElementById("class_name")
+        link.href = link_text
+        // Simulate a mouse click:
+        window.location.href = link_text;
+    }
+</script>

@@ -1,9 +1,9 @@
-<h1>{{name}} by {{teacher.username}}</h1>
+<h1>{{name}} class by {{teacher.username}}</h1>
 
 {% if joined %}
-    <a>Leave Class</a>
+    <a href="/classes/leave/{{name}}">Leave Class</a>
 {% else %}
-    <a>Join Class</a>
+    <a href="/classes/join/{{name}}">Join Class</a>
 {% endif %}
 
 <ul class="feed">
